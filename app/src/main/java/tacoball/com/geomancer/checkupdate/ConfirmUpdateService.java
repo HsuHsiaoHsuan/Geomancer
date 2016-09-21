@@ -6,8 +6,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
 import tacoball.com.geomancer.MainActivity;
 import tacoball.com.geomancer.MainUtils;
+import tacoball.com.geomancer.event.Event_Update;
 
 /**
  * 更新通知的後續處理服務
@@ -28,9 +31,7 @@ public class ConfirmUpdateService extends Service {
             Log.d(TAG, "User accept updating.");
 
             // 用於 App 開啟狀態
-            Intent itBroadcast = new Intent();
-            itBroadcast.setAction("UPDATE");
-            sendBroadcast(itBroadcast);
+            EventBus.getDefault().post(new Event_Update());
 
             // 用於 App 關閉狀態
             // 如果 App 已開啟，由於主程式採用 singletop 設定，這個方法沒有效果

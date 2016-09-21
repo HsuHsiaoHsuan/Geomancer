@@ -1,28 +1,33 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.2'
     defaultConfig {
         applicationId "tacoball.com.geomancer"
         minSdkVersion 19
-        targetSdkVersion 21
+        targetSdkVersion 24
         versionCode 11
         versionName "0.0.11"
     }
 }
 
 dependencies {
-    // mapsforge 0.6.1
-    compile 'org.mapsforge:mapsforge-map-android:0.6.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.caverock:androidsvg:1.2.2-beta-1'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'commons-io:commons-io:2.5'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'org.mapsforge:mapsforge-map-android:0.6.1'
+
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    testCompile 'junit:junit:4.12'
+
     //compile('org.mapsforge:mapsforge-map-android-extras:0.6.1') {
     //    transitive = false
     //}
-
-    compile 'commons-io:commons-io:2.5'
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    //compile 'com.android.support:support-v4:21.0.3'
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
 }
