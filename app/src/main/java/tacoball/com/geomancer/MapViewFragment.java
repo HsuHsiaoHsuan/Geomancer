@@ -137,11 +137,12 @@ public class MapViewFragment extends Fragment {
 
                 List<PointInfo> infolist = new ArrayList<>();
 
+                // FIXME maybe use query is better
                 // 查詢凶宅
                 sql = "SELECT id,approach,area,address,lat,lng FROM unluckyhouse " +
                         "WHERE state>1 AND lat>=? AND lat<=? AND lng>=? AND lng<=?";
                 cur = mUnluckyHouseDB.rawQuery(sql, params);
-                if (cur.getCount() > 0) {
+                try {
                     while (cur.moveToNext()) {
                         String pat = getString(R.string.pattern_unluckyhouse_subject);
                         String url = String.format(Locale.getDefault(), "http://unluckyhouse.com/showthread.php?t=%d", cur.getInt(0));
@@ -156,14 +157,16 @@ public class MapViewFragment extends Fragment {
 
                         uhcnt++;
                     }
+                } finally {
+                    cur.close();
                 }
-                cur.close();
 
+                // FIXME maybe use query is better
                 // 查詢血汗工廠
                 sql = "SELECT id,doc_id,corp,law,boss,dt_exe,gov,lat,lng FROM unluckylabor " +
                         "WHERE lat>=? AND lat<=? AND lng>=? AND lng<=?";
                 cur = mUnluckyLaborDB.rawQuery(sql, params);
-                if (cur.getCount() > 0) {
+                try {
                     while (cur.moveToNext()) {
                         String corp = cur.getString(cur.getColumnIndex("corp"));
                         String doc_id = cur.getString(cur.getColumnIndex("doc_id"));
@@ -202,8 +205,9 @@ public class MapViewFragment extends Fragment {
                         infolist.add(p);
                         ulcnt++;
                     }
+                } finally {
+                    cur.close();
                 }
-                cur.close();
 
                 // 配置 POI Marker
                 if (infolist.size() > 0) {
@@ -239,13 +243,13 @@ public class MapViewFragment extends Fragment {
             String txtAzimuth = String.format(Locale.getDefault(), "%.2f", state.myAzimuth);
             mTxvAzimuth.setText(txtAzimuth);
 
-            if (state.zoom >= 15) {
-                mTxvHint.setVisibility(View.INVISIBLE);
-                mBtMeasure.setEnabled(true);
-            } else {
-                mTxvHint.setVisibility(View.VISIBLE);
-                mBtMeasure.setEnabled(false);
-            }
+//            if (state.zoom >= 15) {
+            mTxvHint.setVisibility(View.INVISIBLE);
+            mBtMeasure.setEnabled(true);
+//            } else {
+//                mTxvHint.setVisibility(View.VISIBLE);
+//                mBtMeasure.setEnabled(false);
+//            }
         }
 
     };

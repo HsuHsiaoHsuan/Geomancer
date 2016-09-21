@@ -35,9 +35,9 @@ public class UpdateToolFragment extends Fragment {
     private static final long RESTART_DELAY = 3000;
 
     // 介面元件
-    TextView    mTxvAction; // 步驟說明文字
+    TextView mTxvAction; // 步驟說明文字
     ProgressBar mPgbAction; // 進度條
-    Button      mBtnRepair; // 修復按鈕
+    Button mBtnRepair; // 修復按鈕
 
     // 資源元件
     Handler mHandler;
@@ -51,14 +51,14 @@ public class UpdateToolFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup layout = (ViewGroup)inflater.inflate(R.layout.fragment_updater, container, false);
+        View layout = inflater.inflate(R.layout.fragment_updater, container, false);
 
-        mTxvAction = (TextView)layout.findViewById(R.id.txvAction);
+        mTxvAction = (TextView) layout.findViewById(R.id.txvAction);
 
-        mPgbAction = (ProgressBar)layout.findViewById(R.id.pgbAction);
+        mPgbAction = (ProgressBar) layout.findViewById(R.id.pgbAction);
         mPgbAction.setProgress(0);
 
-        mBtnRepair = (Button)layout.findViewById(R.id.btnRepair);
+        mBtnRepair = (Button) layout.findViewById(R.id.btnRepair);
         mBtnRepair.setVisibility(View.INVISIBLE);
         mBtnRepair.setOnClickListener(repairListener);
 
@@ -67,7 +67,7 @@ public class UpdateToolFragment extends Fragment {
         // 設定版本字串
         try {
             PackageInfo packageInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            TextView txvVersion = (TextView)layout.findViewById(R.id.txvVersion);
+            TextView txvVersion = (TextView) layout.findViewById(R.id.txvVersion);
             txvVersion.setText(packageInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, e.getMessage());
@@ -75,7 +75,7 @@ public class UpdateToolFragment extends Fragment {
 
         // 檢查網路連線
         boolean hasNetwork = false;
-        ConnectivityManager connMgr = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         for (NetworkInfo ni : connMgr.getAllNetworkInfo()) {
             if (ni.isConnected()) {
                 hasNetwork = true;
@@ -87,11 +87,11 @@ public class UpdateToolFragment extends Fragment {
             try {
                 // 啟動檔案更新循環
                 String fileURL = MainUtils.getRemoteURL(fileIndex);
-                File   saveTo  = MainUtils.getSavePath(getActivity(), fileIndex);
+                File saveTo = MainUtils.getSavePath(getActivity(), fileIndex);
                 fum = new FileUpdateManager();
                 fum.setListener(listener);
                 fum.checkVersion(fileURL, saveTo);
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 mTxvAction.setText(R.string.prompt_cannot_access_storage);
             }
         } else {
@@ -107,7 +107,7 @@ public class UpdateToolFragment extends Fragment {
     @Override
     public void onDestroy() {
         // 取消線上更新，並且不理會後續事件，避免 Activity 結束後閃退
-        if (fum!=null) {
+        if (fum != null) {
             fum.cancel();
             fum.unsetListener();
         }
@@ -155,7 +155,7 @@ public class UpdateToolFragment extends Fragment {
             @Override
             public void run() {
                 Activity activity = getActivity();
-                if (activity==null) return;
+                if (activity == null) return;
 
                 Intent restartIntent = new Intent(activity, MainActivity.class);
                 activity.finish();
@@ -188,7 +188,7 @@ public class UpdateToolFragment extends Fragment {
                         checkNext();
                     }
                 }
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 Log.e(TAG, MainUtils.getReason(ex));
             }
         }
@@ -219,12 +219,12 @@ public class UpdateToolFragment extends Fragment {
         // 繼續處理下一個檔案
         private void checkNext() {
             fileIndex++;
-            if (fileIndex<MainUtils.REQUIRED_FILES.length) {
+            if (fileIndex < MainUtils.REQUIRED_FILES.length) {
                 try {
                     String fileURL = MainUtils.getRemoteURL(fileIndex);
                     File saveTo = MainUtils.getSavePath(getActivity(), fileIndex);
                     fum.checkVersion(fileURL, saveTo);
-                } catch(IOException ex) {
+                } catch (IOException ex) {
                     Log.e(TAG, MainUtils.getReason(ex));
                 }
             } else {
@@ -249,9 +249,9 @@ public class UpdateToolFragment extends Fragment {
 
             if (withTarget) {
                 String[] targets = {
-                    getString(R.string.term_map),
-                    getString(R.string.term_unluckyhouse_db),
-                    getString(R.string.term_unluckylabor_db)
+                        getString(R.string.term_map),
+                        getString(R.string.term_unluckyhouse_db),
+                        getString(R.string.term_unluckylabor_db)
                 };
                 return String.format(Locale.getDefault(), "%s%s", stepname, targets[fileIndex]);
             }
@@ -270,7 +270,7 @@ public class UpdateToolFragment extends Fragment {
             try {
                 File saveTo = MainUtils.getSavePath(getActivity(), fileIndex);
                 fum.repair(fileURL, saveTo);
-            } catch(IOException ex) {
+            } catch (IOException ex) {
                 Log.e(TAG, MainUtils.getReason(ex));
             }
         }

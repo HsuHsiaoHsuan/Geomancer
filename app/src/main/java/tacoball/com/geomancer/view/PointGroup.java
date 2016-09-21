@@ -16,19 +16,19 @@ public class PointGroup {
     // 多工管理寫入鎖
     private final Object WRITE_LOCK = new Object();
 
-    private PointMarker   mPrevFocusMarker = null; // 上次選取的圖標物件
-    private PointMarker[] mPointMarkers;           // 所有 POI 圖標
-    private PointInfo[]   mPointInfo;              // 所有 POI 資訊
-    private TextView      mTxvDescription;         // POI 詳細內容的文字方塊
-    private TextView      mTxvURL;                 // POI 網址的文字方塊
-    private ViewGroup     mInfoContainer;          // POI 詳細資訊框
+    private PointMarker mPrevFocusMarker = null; // 上次選取的圖標物件
+    private PointMarker[] mPointMarkers;         // 所有 POI 圖標
+    private PointInfo[] mPointInfo;              // 所有 POI 資訊
+    private TextView mTxvDescription;            // POI 詳細內容的文字方塊
+    private TextView mTxvURL;                    // POI 網址的文字方塊
+    private ViewGroup mInfoContainer;            // POI 詳細資訊框
 
     /**
      * 配置圖標群組
      */
     public PointGroup(Context context, Layers layers, int maxCount) {
         mPointMarkers = new PointMarker[maxCount];
-        for (int i=0;i<maxCount;i++) {
+        for (int i = 0; i < maxCount; i++) {
             mPointMarkers[i] = new PointMarker(context, this);
             layers.add(mPointMarkers[i]);
         }
@@ -83,8 +83,8 @@ public class PointGroup {
      */
     public void setFocus(final PointMarker focusMarker) {
         synchronized (WRITE_LOCK) {
-            for (int i=0;i<mPointMarkers.length;i++) {
-                if (focusMarker==mPointMarkers[i]) {
+            for (int i = 0; i < mPointMarkers.length; i++) {
+                if (focusMarker == mPointMarkers[i]) {
                     focusMarker.setFocusedPin();
                     mTxvDescription.setText(mPointInfo[i].getDescription());
                     if (mPointInfo[i].getURL().equals("")) {
@@ -95,7 +95,7 @@ public class PointGroup {
                     mInfoContainer.setVisibility(ViewGroup.VISIBLE);
                     continue;
                 }
-                if (mPrevFocusMarker==mPointMarkers[i]) {
+                if (mPrevFocusMarker == mPointMarkers[i]) {
                     mPrevFocusMarker.setNormalPin();
                 }
             }

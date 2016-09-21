@@ -64,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
             // 必要檔案更新檢查
             int cnt = 0;
             FileUpdateManager fum = new FileUpdateManager();
-            for (int i=0; i<MainUtils.REQUIRED_FILES.length; i++) {
-                File saveTo   = MainUtils.getSavePath(this, i);
+            for (int i = 0; i < MainUtils.REQUIRED_FILES.length; i++) {
+                File saveTo = MainUtils.getSavePath(this, i);
                 long mtimeMin = MainUtils.REQUIRED_MTIME[i];
                 if (fum.isRequired(MainUtils.getRemoteURL(i), saveTo, mtimeMin)) {
                     String msg = String.format(Locale.getDefault(), "檔案 %d 需要強制更新", i);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     cnt++;
                 }
             }
-            boolean needRequirements = (cnt>0);
+            boolean needRequirements = (cnt > 0);
 
             if (needRequirements || userRequest) {
                 // 更新程式
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.frag_container, current);
             ft.addToBackStack(null);
             ft.commit();
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             // MainUtils.getFilePath() 發生錯誤
             Log.e(TAG, ex.getMessage());
         } finally {
