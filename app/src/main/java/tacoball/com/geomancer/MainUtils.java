@@ -35,7 +35,7 @@ public class MainUtils {
     private static final String PREFKEY_UPDATE_BY_MOFILE = "UPDATE_FROM_MOFILE"; // 允許行動網路更新
 
     // 地圖檔名
-    public static final String MAP_NAME = "taiwan-taco.map";
+//    public static final String MAP_NAME = "taiwan-taco.map";
 
     // 資料庫檔名
     public static final String UNLUCKY_HOUSE = "unluckyhouse.sqlite";
@@ -55,7 +55,7 @@ public class MainUtils {
 
     // 需要檢查更新的檔案清單
     public static final String[] REQUIRED_FILES = {
-        MAP_NAME, UNLUCKY_HOUSE, UNLUCKY_LABOR
+        /*MAP_NAME,*/ UNLUCKY_HOUSE, UNLUCKY_LABOR
     };
 
     // 檔案版本最低要求 (單位: Unix Timestamp x 1000)

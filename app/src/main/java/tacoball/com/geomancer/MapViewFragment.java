@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.mapsforge.core.model.BoundingBox;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.views.MapView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ public class MapViewFragment extends Fragment {
     private static final String TAG = "MapViewFragment";
 
     // 介面元件
-    @BindView(R.id.mapView) TaiwanMapView mMapView;        // 地圖
+    @BindView(R.id.mapView) MapView mMapView;        // 地圖
     // 狀態列
     @BindView(R.id.txvLocation) TextView mTxvLocation;     // 經緯度文字
     @BindView(R.id.txvZoomValue) TextView mTxvZoom;        // 縮放比文字
@@ -64,13 +66,17 @@ public class MapViewFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
 
         // 地圖
-        mMapView.setMyLocationImage(R.drawable.arrow_up);
-        mMapView.setInfoView(vgInfoContainer, txvSummaryContent, txvURLContent);
+//        mMapView.setMyLocationImage(R.drawable.arrow_up);
+//        mMapView.setInfoView(vgInfoContainer, txvSummaryContent, txvURLContent);
+        org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants.setUserAgentValue(BuildConfig.APPLICATION_ID);
+        mMapView.setTileSource(TileSourceFactory.MAPNIK);
+        mMapView.setBuiltInZoomControls(true);
+        mMapView.setMultiTouchControls(true);
 
         // 事件配置
-        mBtPosition.setOnClickListener(mClickListener);
-        mBtMeasure.setOnClickListener(mClickListener);
-        mMapView.setStateChangeListener(mMapStateListener);
+//        mBtPosition.setOnClickListener(mClickListener);
+//        mBtMeasure.setOnClickListener(mClickListener);
+//        mMapView.setStateChangeListener(mMapStateListener);
 
         // 資料庫配置
         try {

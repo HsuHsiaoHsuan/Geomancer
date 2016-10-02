@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (needRequirements || userRequest) {
                 // 更新程式
-                current = new UpdateToolFragment();
+                current = UpdateToolFragment.newInstance();
             } else {
                 // 主畫面程式
                 current = new MapViewFragment();

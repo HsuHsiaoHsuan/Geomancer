@@ -2,12 +2,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <tacoball.com.geomancer.view.TaiwanMapView
+    <!--<tacoball.com.geomancer.view.TaiwanMapView-->
+        <!--android:id="@+id/mapView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="300dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_above="@+id/buttonsBar" />-->
+
+    <org.osmdroid.views.MapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/buttonsBar" />
+        android:layout_above="@+id/buttonsBar"/>
 
     <LinearLayout
         android:orientation="horizontal"

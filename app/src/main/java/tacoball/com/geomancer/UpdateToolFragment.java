@@ -22,6 +22,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
+import butterknife.BindArray;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import tacoball.com.geomancer.checkupdate.FileUpdateManager;
 
 /**
@@ -29,15 +33,15 @@ import tacoball.com.geomancer.checkupdate.FileUpdateManager;
  */
 public class UpdateToolFragment extends Fragment {
 
-    private static final String TAG = "MapUpdaterFragment";
+    private static final String TAG = UpdateToolFragment.class.getSimpleName();
 
     // 進入主畫面前的刻意等待時間
     private static final long RESTART_DELAY = 3000;
 
     // 介面元件
-    TextView mTxvAction; // 步驟說明文字
-    ProgressBar mPgbAction; // 進度條
-    Button mBtnRepair; // 修復按鈕
+    @BindView(R.id.txvAction) TextView mTxvAction; // 步驟說明文字
+    @BindView(R.id.pgbAction) ProgressBar mPgbAction; // 進度條
+    @BindView(R.id.btnRepair) Button mBtnRepair; // 修復按鈕
 
     // 資源元件
     Handler mHandler;
@@ -46,19 +50,24 @@ public class UpdateToolFragment extends Fragment {
     // 狀態值
     int fileIndex = 0;
 
+    private Unbinder unbinder;
+
+    public static UpdateToolFragment newInstance() {
+        UpdateToolFragment fragment = new UpdateToolFragment();
+
+        return fragment;
+    }
+
     /**
      * 準備動作
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_updater, container, false);
+        View view = inflater.inflate(R.layout.fragment_updater, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
-        mTxvAction = (TextView) layout.findViewById(R.id.txvAction);
-
-        mPgbAction = (ProgressBar) layout.findViewById(R.id.pgbAction);
         mPgbAction.setProgress(0);
 
-        mBtnRepair = (Button) layout.findViewById(R.id.btnRepair);
         mBtnRepair.setVisibility(View.INVISIBLE);
         mBtnRepair.setOnClickListener(repairListener);
 
@@ -67,7 +76,7 @@ public class UpdateToolFragment extends Fragment {
         // 設定版本字串
         try {
             PackageInfo packageInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-            TextView txvVersion = (TextView) layout.findViewById(R.id.txvVersion);
+            TextView txvVersion = (TextView) view.findViewById(R.id.txvVersion);
             txvVersion.setText(packageInfo.versionName);
         } catch (PackageManager.NameNotFoundException e) {
             Log.e(TAG, e.getMessage());
@@ -98,7 +107,7 @@ public class UpdateToolFragment extends Fragment {
             mTxvAction.setText(R.string.prompt_cannot_access_network);
         }
 
-        return layout;
+        return view;
     }
 
     /**
@@ -113,6 +122,11 @@ public class UpdateToolFragment extends Fragment {
         }
 
         super.onDestroy();
+    }
+
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     /**
