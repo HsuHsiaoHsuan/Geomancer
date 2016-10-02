@@ -7,9 +7,9 @@ android {
     defaultConfig {
         applicationId "tacoball.com.geomancer"
         minSdkVersion 19
-        targetSdkVersion 24
-        versionCode 11
-        versionName "0.0.11"
+        targetSdkVersion 21
+        versionCode 12
+        versionName "0.0.12"
     }
 }
 
